@@ -9,6 +9,10 @@ about: Use this template when creating a front-end issue
 ## Details
 
 ## Tasks
-- [ ] Code coverage 100%
 - [ ] Make sure pages are responsive
+
+### Testing
+- [ ] Code coverage 100%
+
+### Documentation
 - [ ] Update Wiki
