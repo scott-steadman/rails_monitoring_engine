@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = RailsMonitoringEngine::VERSION
   s.authors     = ["Scott Steadman"]
   s.email       = ["ss@stdmn.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of RailsMonitoringEngine."
-  s.description = "TODO: Description of RailsMonitoringEngine."
+  s.homepage    = "https://github.com/ss/rails_monitoring_engine"
+  s.summary     = "A NewRelic-like Rails Engine"
+  s.description = "This engine allows you to monitor the performance of your rails servers."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
