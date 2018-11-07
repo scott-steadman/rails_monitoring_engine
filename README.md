@@ -25,7 +25,7 @@ I'm aiming for 100% test coverage so I feel more confident
 when making changes.
 
 ```bash
-rails app:coverage
+rails app:simplecov
 ```
 
 To see the coverage detail report start the server and go to: http://localhost:3000/coverage/
