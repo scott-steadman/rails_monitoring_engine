@@ -14,6 +14,14 @@ Add this line to your application's Gemfile:
 gem 'rails_monitoring_engine'
 ```
 
+## Configuration
+Add the following code:
+```ruby
+# config/initializers/rails_monitoring_engine.rb
+
+  RailsMonitoringEngine.enable!
+```
+
 And then execute:
 ```bash
 $ bundle install --path vendor/bundle --clean
