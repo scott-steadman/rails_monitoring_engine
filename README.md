@@ -30,7 +30,7 @@ Add the following code:
 ## Development
 To set up the development environment run the following:
 
-````bash
+```bash
 $ bundle install --path vendor/bundle --clean
 rails db:create db:migrate
 ```
