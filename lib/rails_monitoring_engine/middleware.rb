@@ -11,7 +11,9 @@ class RailsMonitoringEngine::Middleware
     start_time  = Time.now
     return @app.call(env)
   ensure
-    @blk.call(:env => env, :start_time => start_time, :end_time => Time.now)
+    if RailsMonitoringEngine.enabled?
+      @blk.call(:env => env, :start_time => start_time, :end_time => Time.now)
+    end
   end
 
 end # class RailsMonitoringEngine::Middleware
