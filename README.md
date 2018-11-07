@@ -1,4 +1,4 @@
-# RailsMonitoringEngine
+# Rails Monitoring Engine
 This engine provides NewRelic-like functionality to rails apps.
 
 I wanted to be able to monitor my rails applicaiton performance without
