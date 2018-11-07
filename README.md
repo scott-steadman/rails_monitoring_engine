@@ -14,6 +14,11 @@ Add this line to your application's Gemfile:
 gem 'rails_monitoring_engine'
 ```
 
+And then execute:
+```bash
+$ bundle install
+```
+
 ## Configuration
 Add the following code:
 ```ruby
@@ -22,9 +27,23 @@ Add the following code:
   RailsMonitoringEngine.enable!
 ```
 
-And then execute:
-```bash
+## Development
+To set up the development environment run the following:
+
+````bash
 $ bundle install --path vendor/bundle --clean
+rails db:create db:migrate
+```
+
+### Adding a Model
+To add a model run the following:
+```bash
+rails g model <model name>
+```
+
+Edit/test your migration then annotate it:
+``bash
+bundle exec annotate
 ```
 
 ## Testing
