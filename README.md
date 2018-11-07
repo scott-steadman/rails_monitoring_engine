@@ -41,7 +41,7 @@ To add a model run the following:
 rails g model <model name>
 ```
 
-Edit/test your migration then annotate it:
+Edit/test your migration then annotate it via the following command:
 ```bash
 bundle exec annotate
 ```
@@ -50,6 +50,8 @@ bundle exec annotate
 
 I'm aiming for 100% test coverage so I feel more confident
 when making changes.
+
+To generate a coverage report execute the following:
 
 ```bash
 rails app:simplecov
