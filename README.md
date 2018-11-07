@@ -1,5 +1,8 @@
 # RailsMonitoringEngine
-Short description and motivation.
+This engine provides NewRelic-like functionality to rails apps.
+
+I wanted to be able to monitor my rails applicaiton performance without
+having to pay someone or sending telemetry data outside my network.
 
 ## Usage
 How to use my plugin.
@@ -13,13 +16,19 @@ gem 'rails_monitoring_engine'
 
 And then execute:
 ```bash
-$ bundle
+$ bundle install --path vendor/bundle --clean
 ```
 
-Or install it yourself as:
+## Testing
+
+I'm aiming for 100% test coverage so I feel more confident
+when making changes.
+
 ```bash
-$ gem install rails_monitoring_engine
+rails app:coverage
 ```
+
+To see the coverage detail report start the server and go to: http://localhost:3000/coverage/
 
 ## Contributing
 Contribution directions go here.
