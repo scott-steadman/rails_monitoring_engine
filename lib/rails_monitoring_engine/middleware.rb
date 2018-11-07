@@ -1,18 +1,20 @@
 class RailsMonitoringEngine::Middleware
 
-  def initialize(app, &blk)
-    raise ArgumentError.new('A block is required') unless block_given?
-
+  def initialize(app)
     @app = app
-    @blk = blk
   end
 
   def call(env)
-    start_time  = Time.now
+    RailsMonitoringEngine.start! if RailsMonitoringEngine.enabled?
+
     return @app.call(env)
+
   ensure
     if RailsMonitoringEngine.enabled?
-      @blk.call(:env => env, :start_time => start_time, :end_time => Time.now)
+      Thread.new do
+        RailsMonitoringEngine.finish!(env)
+        Thread.exit
+      end
     end
   end
 

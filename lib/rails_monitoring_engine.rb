@@ -24,4 +24,17 @@ module RailsMonitoringEngine
     configuration.instance_exec(&block)
   end
 
+  def self.start!
+    data[:start_time] = Time.now
+  end
+
+  def self.finish!(env)
+    data[:end_time] = Time.now
+
+  end
+
+  def self.data
+    Thread.current[:_rails_monitoring_engine_data] ||= {}
+  end
+
 end
