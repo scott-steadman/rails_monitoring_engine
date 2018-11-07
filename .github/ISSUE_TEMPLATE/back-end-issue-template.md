@@ -16,4 +16,5 @@ about: Use this template when creating a back-end issue.
 - [ ] 100% coverage
 
 ### Documentation
+- [ ] Update README.md
 - [ ] Update Wiki
