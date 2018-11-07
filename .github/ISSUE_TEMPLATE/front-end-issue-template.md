@@ -15,4 +15,5 @@ about: Use this template when creating a front-end issue
 - [ ] Code coverage 100%
 
 ### Documentation
+- [ ] Update README.md
 - [ ] Update Wiki
