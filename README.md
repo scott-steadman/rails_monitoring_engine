@@ -42,7 +42,7 @@ rails g model <model name>
 ```
 
 Edit/test your migration then annotate it:
-``bash
+```bash
 bundle exec annotate
 ```
 
