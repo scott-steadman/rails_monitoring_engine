@@ -43,7 +43,7 @@ rails g model <model name>
 
 Edit/test your migration then annotate it via the following command:
 ```bash
-bundle exec annotate
+rails app:annotate_models
 ```
 
 ## Testing
