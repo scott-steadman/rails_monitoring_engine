@@ -23,3 +23,9 @@ end
 def wait_for_threads
   sleep 1
 end
+
+class Object
+  def tap_pp(*args)
+    tap { |ii| pp [*args, ii] }
+  end
+end
