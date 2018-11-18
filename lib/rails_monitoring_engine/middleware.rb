@@ -10,12 +10,7 @@ class RailsMonitoringEngine::Middleware
     return @app.call(env)
 
   ensure
-    if RailsMonitoringEngine.enabled?
-      Thread.new do
-        RailsMonitoringEngine.finish!(env)
-        Thread.exit
-      end
-    end
+    RailsMonitoringEngine.finish!(env) if RailsMonitoringEngine.enabled?
   end
 
 end # class RailsMonitoringEngine::Middleware
