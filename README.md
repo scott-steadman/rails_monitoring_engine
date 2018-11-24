@@ -51,13 +51,22 @@ rails app:rails_monitoring_engine::annotate_models
 I'm aiming for 100% test coverage so I feel more confident
 when making changes.
 
+### Coverage
 To generate a coverage report execute the following:
 
 ```bash
 rails app:simplecov
 ```
-
 To see the coverage detail report start the server and go to: http://localhost:3000/coverage/
+
+### Performance
+To run a performance test using the Apache Benchmarking Tool start the server
+in one shell and, in another shell, execute the following:
+
+```bash
+rails app:test:performance
+```
+
 
 ## Contributing
 Contribution directions go here.
