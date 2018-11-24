@@ -58,7 +58,7 @@ private
     attrs = data.merge(
       :host_name        => Socket.gethostname,
       :total_time       => 1_000 * (end_time - data[:start_time]),
-      :thread_count     => ThreadGroup::Default.list.size
+      :thread_count     => Thread.current.group.list.size
     )
 
     ControllerActionLog.create!(attrs)
