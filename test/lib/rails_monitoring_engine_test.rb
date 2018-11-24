@@ -32,4 +32,44 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     assert RailsMonitoringEngine.enabled?, 'configure failed'
   end
 
+  test 'logging' do
+    RailsMonitoringEngine.configure do
+      enable!
+    end
+
+    RailsMonitoringEngine.start!
+
+    attrs = {
+      :controller   => 'controller',
+      :action       => 'action',
+      :view_runtime => 42,
+      :db_runtime   => 42,
+    }
+    ActiveSupport::Notifications.instrument('process_action.action_controller', attrs) do
+      # nothing
+    end
+
+    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 1 do
+      RailsMonitoringEngine.finish!({})
+      sleep(1)
+    end
+  end
+
+  test 'logging handles errors' do
+    RailsMonitoringEngine.configure do
+      enable!
+    end
+
+    RailsMonitoringEngine.start!
+
+    ActiveSupport::Notifications.instrument('process_action.action_controller', {}) do
+      # nothing
+    end
+
+    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 0 do
+      RailsMonitoringEngine.finish!({})
+    end
+  end
+
+
 end # class RailsMonitoringEngineTest

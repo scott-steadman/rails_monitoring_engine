@@ -26,6 +26,7 @@ end
 
 class Object
   def tap_pp(*args)
-    tap { |ii| pp [*args, ii] }
+    pp [*args, self]
+    self
   end
 end
