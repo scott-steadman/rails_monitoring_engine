@@ -11,13 +11,14 @@ module RailsMonitoringEngine::Concerns::Logging
     end
 
     def start_logging
-      data[:start_time] = Time.now
+      logging_data[:start_time] = Time.now
     end
 
     def finish_logging(env)
       parent = Thread.current
+
       Thread.new do
-        data.merge!(data(parent))
+        add_logging_data(logging_data(parent))
         write_log(env)
 
         Thread.exit
@@ -26,17 +27,21 @@ module RailsMonitoringEngine::Concerns::Logging
 
   private
 
-    def data(thread=Thread.current)
+    def logging_data(thread=Thread.current)
       thread[:_rails_monitoring_engine_data] ||= {}
+    end
+
+    def add_logging_data(more_data)
+      logging_data.merge!(more_data)
     end
 
     def write_log(env)
       end_time          = Time.now
-      data[:queue_time] = Time.parse(env['X-Request-Start']) if env.has_key?('X-Request-Start')
+      logging_data[:queue_time] = Time.parse(env['X-Request-Start']) if env.has_key?('X-Request-Start')
 
-      attrs = data.merge(
+      attrs = logging_data.merge(
         :host_name        => Socket.gethostname,
-        :total_time       => 1_000 * (end_time - data[:start_time]),
+        :total_time       => 1_000 * (end_time - logging_data[:start_time]),
         :thread_count     => Thread.list.size
       )
 

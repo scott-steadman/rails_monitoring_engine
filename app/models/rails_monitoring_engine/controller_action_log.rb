@@ -39,7 +39,7 @@ module RailsMonitoringEngine
       ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
         params = args.extract_options!
 
-        data.merge!(
+        add_logging_data(
           :controller_name => params[:controller],
           :action_name     => params[:action],
           :render_time     => params[:view_runtime],
