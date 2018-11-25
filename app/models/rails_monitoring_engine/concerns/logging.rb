@@ -6,20 +6,8 @@ module RailsMonitoringEngine::Concerns::Logging
 
   module ClassMethods
 
-    def setup
-      return if @subscribed
-      @subscribed = true
-
-      ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
-        params = args.extract_options!
-
-        data.merge!(
-          :controller_name => params[:controller],
-          :action_name     => params[:action],
-          :render_time     => params[:view_runtime],
-          :database_time   => params[:db_runtime]
-        )
-      end
+    def setup_logging
+      raise NoMethodError.new('setup must be implemented in descendant')
     end
 
     def start_logging

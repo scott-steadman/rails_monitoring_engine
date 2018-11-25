@@ -24,7 +24,7 @@ module RailsMonitoringEngine
 
     configuration.instance_exec(&block)
 
-    ControllerActionLog.setup
+    ControllerActionLog.setup_logging
   end
 
   def self.start!

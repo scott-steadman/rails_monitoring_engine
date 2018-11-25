@@ -32,6 +32,22 @@ module RailsMonitoringEngine
       super(extract_attrs_and_extra_data(attrs))
     end
 
+    def self.setup_logging
+      return if @subscribed
+      @subscribed = true
+
+      ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
+        params = args.extract_options!
+
+        data.merge!(
+          :controller_name => params[:controller],
+          :action_name     => params[:action],
+          :render_time     => params[:view_runtime],
+          :database_time   => params[:db_runtime]
+        )
+      end
+    end
+
   private
 
     def extract_attrs_and_extra_data(attrs)
