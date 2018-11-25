@@ -32,7 +32,7 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     assert RailsMonitoringEngine.enabled?, 'configure failed'
   end
 
-  test 'logging' do
+  test 'controller action logging' do
     RailsMonitoringEngine.configure do
       enable!
     end
@@ -55,7 +55,7 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     end
   end
 
-  test 'logging handles errors' do
+  test 'controller action logging handles errors' do
     RailsMonitoringEngine.configure do
       enable!
     end
@@ -70,6 +70,5 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
       RailsMonitoringEngine.finish!({})
     end
   end
-
 
 end # class RailsMonitoringEngineTest
