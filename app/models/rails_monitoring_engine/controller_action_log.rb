@@ -20,6 +20,7 @@
 
 module RailsMonitoringEngine
   class ControllerActionLog < ApplicationRecord
+    include Concerns::Logging
 
     validates :host_name,       :presence => true
     validates :controller_name, :presence => true

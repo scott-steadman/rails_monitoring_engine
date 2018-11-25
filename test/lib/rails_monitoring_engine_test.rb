@@ -51,7 +51,7 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
 
     assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 1 do
       RailsMonitoringEngine.finish!({})
-      sleep(1)
+      sleep(1) # wait for logging thread
     end
   end
 
