@@ -7,7 +7,7 @@ module RailsMonitoringEngine::Concerns::Logging
   module ClassMethods
 
     def setup_logging
-      raise NoMethodError.new('setup must be implemented in descendant')
+      raise NoMethodError.new('setup_logging must be implemented in descendant')
     end
 
     def start_logging
