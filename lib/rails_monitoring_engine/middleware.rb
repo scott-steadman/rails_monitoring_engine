@@ -5,12 +5,12 @@ class RailsMonitoringEngine::Middleware
   end
 
   def call(env)
-    RailsMonitoringEngine.start! if RailsMonitoringEngine.enabled?
+    params              = {}
+    params[:queue_time] = Time.parse(env['X-Request-Start']) if env.has_key?('X-Request-Start')
 
-    return @app.call(env)
-
-  ensure
-    RailsMonitoringEngine.finish!(env) if RailsMonitoringEngine.enabled?
+    RailsMonitoringEngine.monitor(params) do
+      @app.call(env)
+    end
   end
 
 end # class RailsMonitoringEngine::Middleware

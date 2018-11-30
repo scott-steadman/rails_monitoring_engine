@@ -2,9 +2,11 @@ require_relative '../../test_helper'
 
 class RailsMonitoringEngine::MiddlewareTest < ActiveSupport::TestCase
 
+  RESULT = [200, {'X-Header-Key' => 'header value'}, ['content']]
+
   class DummyApp
     def call(env)
-      return [200, {'X-Header-Key' => 'header value'}, ['content']]
+      return RESULT
     end
   end
 
@@ -12,24 +14,9 @@ class RailsMonitoringEngine::MiddlewareTest < ActiveSupport::TestCase
     env        = {}
     app        = DummyApp.new
     middleware = RailsMonitoringEngine::Middleware.new(app)
-    app.expects(:call).with(env).once
-    RailsMonitoringEngine.expects(:finish!).with(env).once
 
     RailsMonitoringEngine.enable!
-    middleware.call(env)
-    wait_for_threads
-  end
-
-  test 'block not called when disabled' do
-    env        = {}
-    app        = DummyApp.new
-    called     = false
-    middleware = RailsMonitoringEngine::Middleware.new(app)
-    app.expects(:call).with(env).once
-    RailsMonitoringEngine.expects(:finish!).never
-
-    RailsMonitoringEngine.disable!
-    middleware.call(env)
+    assert_equal RESULT, middleware.call(env)
     wait_for_threads
   end
 

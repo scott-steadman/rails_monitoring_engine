@@ -6,10 +6,6 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     RailsMonitoringEngine.disable!
   end
 
-  test 'disabled by default' do
-    assert !RailsMonitoringEngine.enabled?, 'RailsMonitoringEngine should be disabled by default'
-  end
-
   test 'enable/disable' do
     RailsMonitoringEngine.enable!
     assert RailsMonitoringEngine.enabled?, 'enable! failed'
@@ -32,13 +28,50 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     assert RailsMonitoringEngine.enabled?, 'configure failed'
   end
 
-  test 'controller action logging' do
-    RailsMonitoringEngine.configure do
-      enable!
+  test 'monitor requires a block' do
+    assert_raise ArgumentError do
+      RailsMonitoringEngine.monitor({})
+    end
+  end
+
+  test 'monitor when disabled' do
+    RailsMonitoringEngine.disable!
+
+    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 0 do
+      RailsMonitoringEngine.monitor({}) do
+        simulate_controller_action_invocation
+      end
+    end
+  end
+
+  test 'monitor when enabled' do
+    RailsMonitoringEngine.enable!
+
+    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 1 do
+      RailsMonitoringEngine.monitor({}) do
+        simulate_controller_action_invocation
+      end
+      wait_for_threads
+    end
+  end
+
+  test 'monitor with noop block' do
+    RailsMonitoringEngine.enable!
+    block_executed = false
+
+    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 0 do
+      RailsMonitoringEngine.monitor({}) do
+        block_executed = true
+      end
+      wait_for_threads
     end
 
-    RailsMonitoringEngine.start!
+    assert block_executed, 'block should be executed'
+  end
 
+private
+
+  def simulate_controller_action_invocation
     attrs = {
       :controller   => 'controller',
       :action       => 'action',
@@ -47,27 +80,6 @@ class RailsMonitoringEngine::RailsMonitoringEngineTest < ActiveSupport::TestCase
     }
     ActiveSupport::Notifications.instrument('process_action.action_controller', attrs) do
       # nothing
-    end
-
-    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 1 do
-      RailsMonitoringEngine.finish!({})
-      sleep(1) # wait for logging thread
-    end
-  end
-
-  test 'controller action logging handles errors' do
-    RailsMonitoringEngine.configure do
-      enable!
-    end
-
-    RailsMonitoringEngine.start!
-
-    ActiveSupport::Notifications.instrument('process_action.action_controller', {}) do
-      # nothing
-    end
-
-    assert_difference 'RailsMonitoringEngine::ControllerActionLog.count', 0 do
-      RailsMonitoringEngine.finish!({})
     end
   end
 

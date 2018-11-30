@@ -6,20 +6,24 @@ module RailsMonitoringEngine::Concerns::Logging
 
   module ClassMethods
 
+    LOGGING_DATA_KEY = :_rails_monitoring_engine_data
+
     def setup_logging
       raise NoMethodError.new('setup_logging must be implemented in descendant')
     end
 
-    def start_logging
+    def start_logging(parms)
+      setup_logging
       logging_data[:start_time] = Time.now
     end
 
-    def finish_logging(env)
-      parent = Thread.current
+    def finish_logging(params)
+      parent_data                      = Thread.current[LOGGING_DATA_KEY]
+      Thread.current[LOGGING_DATA_KEY] = {}
 
       Thread.new do
-        add_logging_data(logging_data(parent))
-        write_log(env)
+        add_logging_data(parent_data)
+        write_log(params)
 
         Thread.exit
       end
@@ -28,16 +32,16 @@ module RailsMonitoringEngine::Concerns::Logging
   private
 
     def logging_data(thread=Thread.current)
-      thread[:_rails_monitoring_engine_data] ||= {}
+      thread[LOGGING_DATA_KEY] ||= {}
     end
 
     def add_logging_data(more_data)
       logging_data.merge!(more_data)
     end
 
-    def write_log(env)
-      end_time          = Time.now
-      logging_data[:queue_time] = Time.parse(env['X-Request-Start']) if env.has_key?('X-Request-Start')
+    def write_log(params)
+      end_time = Time.now
+      logging_data.merge!(params) if params
 
       attrs = logging_data.merge(
         :host_name        => Socket.gethostname,

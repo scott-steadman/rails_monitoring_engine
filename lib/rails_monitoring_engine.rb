@@ -23,20 +23,15 @@ module RailsMonitoringEngine
     raise ArgumentError.new('A block is required') unless block_given?
 
     configuration.instance_exec(&block)
-
-    ControllerActionLog.setup_logging
   end
 
-  def self.start!
-    return unless enabled?
+  def self.monitor(params)
+    raise ArgumentError.new('A block is required') unless block_given?
 
-    ControllerActionLog.start_logging
-  end
-
-  def self.finish!(env)
-    return unless enabled?
-
-    ControllerActionLog.finish_logging(env)
+    ControllerActionLog.start_logging(params) if enabled?
+    return yield
+  ensure
+    ControllerActionLog.finish_logging(params) if enabled?
   end
 
 end # module RailsMonitoringEngine
