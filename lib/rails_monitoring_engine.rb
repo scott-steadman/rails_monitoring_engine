@@ -28,10 +28,10 @@ module RailsMonitoringEngine
   def self.monitor(params)
     raise ArgumentError.new('A block is required') unless block_given?
 
-    ControllerActionLog.start_logging(params) if enabled?
+    ControllerActionLog.start_monitoring(params) if enabled?
     return yield
   ensure
-    ControllerActionLog.finish_logging(params) if enabled?
+    ControllerActionLog.finish_monitoring(params) if enabled?
   end
 
 end # module RailsMonitoringEngine

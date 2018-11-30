@@ -20,7 +20,7 @@
 
 module RailsMonitoringEngine
   class ControllerActionLog < ApplicationRecord
-    include Concerns::Logging
+    include Concerns::Monitoring
 
     validates :host_name,       :presence => true
     validates :controller_name, :presence => true
@@ -32,14 +32,14 @@ module RailsMonitoringEngine
       super(extract_attrs_and_extra_data(attrs))
     end
 
-    def self.setup_logging
+    def self.setup_monitoring
       return if @subscribed
       @subscribed = true
 
       ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*args|
         params = args.extract_options!
 
-        add_logging_data(
+        add_monitoring_data(
           :controller_name => params[:controller],
           :action_name     => params[:action],
           :render_time     => params[:view_runtime],
