@@ -1,3 +1,7 @@
+# Status
+This project is on hiatus while I explore serverless tech.
+
+
 # Rails Monitoring Engine
 This engine provides NewRelic-like functionality to rails apps.
 
