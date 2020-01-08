@@ -61,7 +61,13 @@ To see the coverage detail report start the server and go to: http://localhost:3
 
 ### Performance
 To run a performance test using the Apache Benchmarking Tool start the server
-in one shell and, in another shell, execute the following:
+in one shell via
+```bash
+cd test/dummy
+rails server
+```
+
+Then, in another shell, execute the following:
 
 ```bash
 rails app:test:performance
